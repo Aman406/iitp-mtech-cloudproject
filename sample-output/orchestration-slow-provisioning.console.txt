@@ -1,0 +1,44 @@
+=== Module B: Cost-Aware Predictive Resource Orchestration ===
+experiment=orchestration-slow-provisioning seeds=[42, 43, 44, 45, 46] policies=[FIXED:12, FIXED:32, REACTIVE, PREDICTIVE, PREDICTIVE_COST_AWARE]
+control interval=60s pool=[min 1, max 40, initial 8] provisioning delay=180s price=0.1000/worker-h billing=60s blocks (min 60s) SLA=10.0s
+seed 42: 37489 tasks over 7200s, mean service 1.996s (synthetic: base=4.000/s amp=0.60 period=3600s trend=0.000/h bursts=4.00/h x2.50 for 300s; service=LOGNORMAL(mean=2.000s, cv=0.50); 6 burst(s))
+  FIXED-12                     p95 latency   485.14s  worker-h   24.28  cost   2.4400  incomplete 0
+  FIXED-32                     p95 latency     3.99s  worker-h   64.01  cost   6.4233  incomplete 0
+  REACTIVE                     p95 latency    89.23s  worker-h   55.48  cost   5.5767  incomplete 0
+  PREDICTIVE[SMA(3)]           p95 latency    96.82s  worker-h   34.89  cost   3.5533  incomplete 0
+  PREDICTIVE-CA[SMA(3)]        p95 latency    96.82s  worker-h   34.89  cost   3.5533  incomplete 0
+seed 43: 48448 tasks over 7200s, mean service 2.006s (synthetic: base=4.000/s amp=0.60 period=3600s trend=0.000/h bursts=4.00/h x2.50 for 300s; service=LOGNORMAL(mean=2.000s, cv=0.50); 13 burst(s))
+  FIXED-12                     p95 latency  1446.02s  worker-h   27.35  cost   2.7400  incomplete 0
+  FIXED-32                     p95 latency     4.26s  worker-h   64.00  cost   6.4150  incomplete 0
+  REACTIVE                     p95 latency    20.73s  worker-h   63.34  cost   6.3483  incomplete 0
+  PREDICTIVE[SMA(3)]           p95 latency   103.80s  worker-h   44.39  cost   4.4600  incomplete 0
+  PREDICTIVE-CA[SMA(3)]        p95 latency   103.80s  worker-h   44.39  cost   4.4600  incomplete 0
+seed 44: 42233 tasks over 7200s, mean service 2.002s (synthetic: base=4.000/s amp=0.60 period=3600s trend=0.000/h bursts=4.00/h x2.50 for 300s; service=LOGNORMAL(mean=2.000s, cv=0.50); 10 burst(s))
+  FIXED-12                     p95 latency  1189.04s  worker-h   25.68  cost   2.5800  incomplete 0
+  FIXED-32                     p95 latency     4.64s  worker-h   64.00  cost   6.4083  incomplete 0
+  REACTIVE                     p95 latency    31.38s  worker-h   54.44  cost   5.4517  incomplete 0
+  PREDICTIVE[SMA(3)]           p95 latency    90.09s  worker-h   37.29  cost   3.7550  incomplete 0
+  PREDICTIVE-CA[SMA(3)]        p95 latency    90.09s  worker-h   37.29  cost   3.7550  incomplete 0
+seed 45: 39203 tasks over 7200s, mean service 1.998s (synthetic: base=4.000/s amp=0.60 period=3600s trend=0.000/h bursts=4.00/h x2.50 for 300s; service=LOGNORMAL(mean=2.000s, cv=0.50); 6 burst(s))
+  FIXED-12                     p95 latency   892.08s  worker-h   24.00  cost   2.4117  incomplete 0
+  FIXED-32                     p95 latency     5.17s  worker-h   64.00  cost   6.4117  incomplete 0
+  REACTIVE                     p95 latency    56.30s  worker-h   55.94  cost   5.6050  incomplete 0
+  PREDICTIVE[SMA(3)]           p95 latency   101.47s  worker-h   35.95  cost   3.6083  incomplete 0
+  PREDICTIVE-CA[SMA(3)]        p95 latency   101.47s  worker-h   35.95  cost   3.6083  incomplete 0
+seed 46: 44906 tasks over 7200s, mean service 2.001s (synthetic: base=4.000/s amp=0.60 period=3600s trend=0.000/h bursts=4.00/h x2.50 for 300s; service=LOGNORMAL(mean=2.000s, cv=0.50); 11 burst(s))
+  FIXED-12                     p95 latency   953.41s  worker-h   25.41  cost   2.5600  incomplete 0
+  FIXED-32                     p95 latency     4.42s  worker-h   64.00  cost   6.4183  incomplete 0
+  REACTIVE                     p95 latency    55.33s  worker-h   59.87  cost   6.0117  incomplete 0
+  PREDICTIVE[SMA(3)]           p95 latency   103.80s  worker-h   41.73  cost   4.2500  incomplete 0
+  PREDICTIVE-CA[SMA(3)]        p95 latency   103.80s  worker-h   41.73  cost   4.2500  incomplete 0
+
+Mean +/- sample std over seeds (std omitted for a single seed; n/a = not applicable):
+policy                |     mean wait s |      p95 wait s |   p95 latency s |      SLA viol % |      thruput/s |        worker-h |    billed cost |            util | forecast MAPE %
+----------------------+-----------------+-----------------+-----------------+-----------------+----------------+-----------------+----------------+-----------------+----------------
+FIXED-12              | 419.1 +/- 169.4 | 990.9 +/- 358.2 | 993.1 +/- 358.2 | 84.36 +/- 10.31 | 5.57 +/- 0.323 |  25.34 +/- 1.33 | 2.55 +/- 0.131 | 0.929 +/- 0.055 |             n/a
+FIXED-32              | 0.185 +/- 0.107 |  1.40 +/- 0.935 |  4.49 +/- 0.447 | 0.023 +/- 0.018 | 5.89 +/- 0.609 | 64.00 +/- 0.001 | 6.42 +/- 0.006 | 0.369 +/- 0.039 |             n/a
+REACTIVE              |   6.54 +/- 3.94 | 48.51 +/- 26.36 | 50.59 +/- 26.50 |  16.86 +/- 8.16 | 5.89 +/- 0.613 |  57.81 +/- 3.71 | 5.80 +/- 0.372 | 0.431 +/- 0.025 |             n/a
+PREDICTIVE[SMA(3)]    |  26.29 +/- 2.95 |  97.09 +/- 5.82 |  99.19 +/- 5.83 |  44.55 +/- 5.37 | 5.87 +/- 0.615 |  38.85 +/- 4.05 | 3.93 +/- 0.406 | 0.750 +/- 0.012 |  28.73 +/- 5.28
+PREDICTIVE-CA[SMA(3)] |  26.29 +/- 2.95 |  97.09 +/- 5.82 |  99.19 +/- 5.83 |  44.55 +/- 5.37 | 5.87 +/- 0.615 |  38.85 +/- 4.05 | 3.93 +/- 0.406 | 0.750 +/- 0.012 |  28.73 +/- 5.28
+CSV written to /home/claude/cloud-orchestration-sim/results/orchestration-slow-provisioning
+finished in 0.99 s (wall clock)
